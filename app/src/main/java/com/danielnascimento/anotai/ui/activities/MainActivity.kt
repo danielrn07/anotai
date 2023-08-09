@@ -1,11 +1,13 @@
-package com.danielnascimento.anotai
+package com.danielnascimento.anotai.ui.activities
 
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDelegate
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.databinding.ActivityMainBinding
 import com.google.android.material.switchmaterial.SwitchMaterial
 
@@ -34,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun checkTheme() {
-        val switch: SwitchMaterial = binding.btnNightMode
+        val switch: SwitchCompat = binding.btnNightMode
         switch.setOnCheckedChangeListener { _, isChecked ->
             with(sharedPref.edit()) {
                 putBoolean("checked", isChecked)
