@@ -2,4 +2,7 @@
     <string name="app_name">Anotaí</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--    Category List Fragment-->
+    <string name="empty_category_name_error">Digite o nome da categoria</string>
 </resources>

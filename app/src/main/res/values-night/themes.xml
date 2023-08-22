@@ -15,4 +15,5 @@
         <item name="android:windowBackground">@color/dark_surface</item>
         <item name="android:textViewStyle">@style/TextViewStyleNight</item>
     </style>
+    <style name="Theme.Anotai.Dark" parent="Base.Theme.Anotai" />
 </resources>

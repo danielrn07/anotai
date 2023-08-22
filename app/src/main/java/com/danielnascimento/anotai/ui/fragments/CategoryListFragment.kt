@@ -9,18 +9,19 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
 import com.danielnascimento.anotai.data.db.repository.CategoryRepository
-import com.danielnascimento.anotai.databinding.FragmentNotesBinding
+import com.danielnascimento.anotai.databinding.FragmentCategoryListBinding
 import com.danielnascimento.anotai.ui.adapter.CategoryListAdapter
 import com.danielnascimento.anotai.ui.viewmodel.CategoryViewModel
-import com.danielnascimento.anotai.utils.nav
+import java.util.Locale
 
-class NotesFragment : Fragment() {
-    private var _binding: FragmentNotesBinding? = null
+class CategoryListFragment : Fragment() {
+    private var _binding: FragmentCategoryListBinding? = null
     private val binding get() = _binding!!
     private lateinit var categoryListAdapter: CategoryListAdapter
 
@@ -42,17 +43,16 @@ class NotesFragment : Fragment() {
     }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
+        inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentNotesBinding.inflate(inflater, container, false)
+        _binding = FragmentCategoryListBinding.inflate(inflater, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        CategoryListAdapter.isEditingCategory = false
+        CategoryListAdapter.isEditingCategory = true
         setupClickListeners()
         setupRecyclerView()
         observeViewModel()
@@ -64,25 +64,36 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupClickListeners() {
-        binding.btnEditCategories.setOnClickListener {
-            nav(R.id.action_notesFragment_to_categoryListFragment)
+        binding.btnSave.setOnClickListener {
+            validateData()
+        }
+    }
+
+    private fun validateData() {
+
+        val categoryName = binding.inputCategoryName.text.toString().trim()
+            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
+
+        if (categoryName.isNotEmpty()) {
+
+            val category = CategoryEntity()
+            category.name = categoryName
+            categoryViewModel.insertCategory(category)
+
+            findNavController().popBackStack()
+
+        } else {
+            binding.inputCategoryName.error = getText(R.string.empty_category_name_error)
         }
     }
 
     private fun observeViewModel() {
         categoryViewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
-
-            val newCategory = CategoryEntity(0, "All")
-            val allCategoriesList = mutableListOf(newCategory)
-            allCategoriesList.addAll(categoryList)
-            categoryListAdapter.submitList(allCategoriesList)
-
-            categoryListAdapter.setSelectedPositionAndNotify(newCategory.id.toInt())
+            categoryListAdapter.submitList(categoryList)
         }
     }
 
     private fun setupRecyclerView() {
-
         categoryListAdapter = CategoryListAdapter { category, option ->
             optionSelected(category, option)
         }

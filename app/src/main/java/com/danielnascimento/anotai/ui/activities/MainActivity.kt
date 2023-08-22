@@ -9,7 +9,6 @@ import androidx.appcompat.widget.SwitchCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.databinding.ActivityMainBinding
-import com.google.android.material.switchmaterial.SwitchMaterial
 
 class MainActivity : AppCompatActivity() {
 
@@ -48,7 +47,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun recoverTheme() {
         val checked = sharedPref.getBoolean("checked", false)
-
         if (checked) {
             binding.btnNightMode.isChecked = true
         }
