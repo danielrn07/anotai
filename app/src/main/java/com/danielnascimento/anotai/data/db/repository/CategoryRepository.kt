@@ -11,4 +11,6 @@ class CategoryRepository(private val categoryDao: CategoryDao) {
     suspend fun insertCategory(categoryEntity: CategoryEntity): Long {
         return categoryDao.insertCategory(categoryEntity)
     }
+
+    suspend fun deleteCategory(id: Long) = categoryDao.deleteCategory(id)
 }

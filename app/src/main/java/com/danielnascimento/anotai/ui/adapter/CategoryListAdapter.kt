@@ -3,6 +3,7 @@ package com.danielnascimento.anotai.ui.adapter
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatDelegate
@@ -20,6 +21,7 @@ class CategoryListAdapter(
 
     companion object {
         const val RETURN_ID: Int = 1
+        const val SELECT_REMOVE: Int = 2
         var isEditingCategory: Boolean = false
         var selectedPosition = RecyclerView.NO_POSITION
 
@@ -55,6 +57,7 @@ class CategoryListAdapter(
         val category = getItem(position)
         holder.binding.tvTitle.text = category.name
         holder.binding.body.setOnClickListener { categorySelected(category, RETURN_ID) }
+        holder.binding.btnDelete.setOnClickListener { categorySelected(category, SELECT_REMOVE) }
 
         setDeleteButtonVisibility(isEditingCategory, holder)
 
@@ -65,7 +68,8 @@ class CategoryListAdapter(
                     holder.binding.tvTitle.setTextColor(context.getColor(R.color.main_secondary))
                 } else {
                     holder.binding.body.setBackgroundResource(R.drawable.bg_category)
-                    holder.binding.tvTitle.setTextColor(context.getColor(R.color.black))
+                    val textColorResId = if (checkAppTheme(context)) android.R.color.white else android.R.color.black
+                    holder.binding.tvTitle.setTextColor(context.getColor(textColorResId))
                 }
 
                 setOnClickListener {
@@ -77,6 +81,11 @@ class CategoryListAdapter(
                 }
             }
         }
+    }
+
+    private fun checkAppTheme(context: Context): Boolean {
+        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 
     private fun setDeleteButtonVisibility(isEditing: Boolean, holder: MyViewHolder) {

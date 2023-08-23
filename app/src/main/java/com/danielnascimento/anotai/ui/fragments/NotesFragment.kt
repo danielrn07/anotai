@@ -89,7 +89,7 @@ class NotesFragment : Fragment() {
 
         with(binding.recyclerview) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             adapter = categoryListAdapter
         }
     }

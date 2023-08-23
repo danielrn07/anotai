@@ -21,4 +21,9 @@ class CategoryViewModel(private val repository: CategoryRepository) : ViewModel(
     fun insertCategory(categoryEntity: CategoryEntity) = viewModelScope.launch {
         repository.insertCategory(categoryEntity)
     }
+
+    fun deleteCategory(id: Long) = viewModelScope.launch {
+        repository.deleteCategory(id)
+        getAllCategories()
+    }
 }

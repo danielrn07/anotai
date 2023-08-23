@@ -91,6 +91,7 @@ class CategoryListFragment : Fragment() {
         categoryViewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
             categoryListAdapter.submitList(categoryList)
         }
+
     }
 
     private fun setupRecyclerView() {
@@ -100,7 +101,7 @@ class CategoryListFragment : Fragment() {
 
         with(binding.recyclerview) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-            setHasFixedSize(true)
+            setHasFixedSize(false)
             adapter = categoryListAdapter
         }
     }
@@ -110,6 +111,10 @@ class CategoryListFragment : Fragment() {
             CategoryListAdapter.RETURN_ID -> {
                 Toast.makeText(requireContext(), "${category.id}", Toast.LENGTH_SHORT)
                     .show()
+            }
+
+            CategoryListAdapter.SELECT_REMOVE -> {
+                categoryViewModel.deleteCategory(category.id)
             }
         }
     }
