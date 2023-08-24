@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity

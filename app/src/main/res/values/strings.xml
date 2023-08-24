@@ -1,6 +1,16 @@
 <resources>
     <string name="app_name">Anotaí</string>
 
+    <!--    Generic-->
+    <string name="generic_error">Ocorreu um erro. Tente novamente mais tarde.</string>
+    <string name="undo">Desfazer</string>
+
     <!--    Category List Fragment-->
     <string name="empty_category_name_error">Digite o nome da categoria</string>
+
+    <!--    Category ViewModel-->
+    <string name="success_in_deleting_category">Tarefa removida com sucesso.</string>
+    <string name="error_deleting_category">Não foi possível remover a tarefa. Tente novamente mais tarde.</string>
+
+
 </resources>

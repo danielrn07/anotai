@@ -1,12 +1,9 @@
 package com.danielnascimento.anotai.ui.adapter
 
-import android.annotation.SuppressLint
 import android.content.Context
-import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
@@ -18,6 +15,7 @@ import com.danielnascimento.anotai.databinding.CategoryItemListBinding
 class CategoryListAdapter(
     private val categorySelected: (CategoryEntity, Int) -> Unit
 ) : ListAdapter<CategoryEntity, CategoryListAdapter.MyViewHolder>(DIFF_CALLBACK) {
+    var recentlyDeletedCategory: CategoryEntity = CategoryEntity()
 
     companion object {
         const val RETURN_ID: Int = 1
@@ -55,9 +53,13 @@ class CategoryListAdapter(
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val category = getItem(position)
+
         holder.binding.tvTitle.text = category.name
         holder.binding.body.setOnClickListener { categorySelected(category, RETURN_ID) }
-        holder.binding.btnDelete.setOnClickListener { categorySelected(category, SELECT_REMOVE) }
+        holder.binding.btnDelete.setOnClickListener {
+            categorySelected(category, SELECT_REMOVE)
+            recentlyDeletedCategory = category
+        }
 
         setDeleteButtonVisibility(isEditingCategory, holder)
 
@@ -68,7 +70,8 @@ class CategoryListAdapter(
                     holder.binding.tvTitle.setTextColor(context.getColor(R.color.main_secondary))
                 } else {
                     holder.binding.body.setBackgroundResource(R.drawable.bg_category)
-                    val textColorResId = if (checkAppTheme(context)) android.R.color.white else android.R.color.black
+                    val textColorResId =
+                        if (checkAppTheme(context)) android.R.color.white else android.R.color.black
                     holder.binding.tvTitle.setTextColor(context.getColor(textColorResId))
                 }
 
@@ -84,7 +87,8 @@ class CategoryListAdapter(
     }
 
     private fun checkAppTheme(context: Context): Boolean {
-        val currentNightMode = context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
+        val currentNightMode =
+            context.resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
         return currentNightMode == Configuration.UI_MODE_NIGHT_YES
     }
 

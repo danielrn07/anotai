@@ -1,16 +1,19 @@
 package com.danielnascimento.anotai.ui.fragments
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
@@ -18,6 +21,8 @@ import com.danielnascimento.anotai.data.db.repository.CategoryRepository
 import com.danielnascimento.anotai.databinding.FragmentCategoryListBinding
 import com.danielnascimento.anotai.ui.adapter.CategoryListAdapter
 import com.danielnascimento.anotai.ui.viewmodel.CategoryViewModel
+import com.danielnascimento.anotai.utils.snackbar
+import com.google.android.material.snackbar.Snackbar
 import java.util.Locale
 
 class CategoryListFragment : Fragment() {
@@ -70,12 +75,10 @@ class CategoryListFragment : Fragment() {
     }
 
     private fun validateData() {
-
         val categoryName = binding.inputCategoryName.text.toString().trim()
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
         if (categoryName.isNotEmpty()) {
-
             val category = CategoryEntity()
             category.name = categoryName
             categoryViewModel.insertCategory(category)
@@ -92,6 +95,14 @@ class CategoryListFragment : Fragment() {
             categoryListAdapter.submitList(categoryList)
         }
 
+        categoryViewModel.categoryStateMessage.observe(viewLifecycleOwner) { message ->
+            val snackbar = Snackbar.make(requireView(), getString(message), Snackbar.LENGTH_LONG)
+            snackbar.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_success))
+            snackbar.setAction(getString(R.string.undo)) {
+                categoryViewModel.insertCategory(categoryListAdapter.recentlyDeletedCategory)
+            }
+            snackbar.show()
+        }
     }
 
     private fun setupRecyclerView() {
@@ -115,6 +126,7 @@ class CategoryListFragment : Fragment() {
 
             CategoryListAdapter.SELECT_REMOVE -> {
                 categoryViewModel.deleteCategory(category.id)
+//                categoryViewModel.getAllCategories()
             }
         }
     }
