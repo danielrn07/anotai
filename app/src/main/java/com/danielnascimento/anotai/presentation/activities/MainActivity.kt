@@ -1,5 +1,4 @@
-package com.danielnascimento.anotai.ui.activities
-
+package com.danielnascimento.anotai.presentation.activities
 import android.content.Context
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity

@@ -12,5 +12,8 @@
     <string name="success_in_deleting_category">Tarefa removida com sucesso.</string>
     <string name="error_deleting_category">Não foi possível remover a tarefa. Tente novamente mais tarde.</string>
 
+    <!--    Fragment Category List-->
+    <string name="empty_category_list">Nenhuma categoria registrada.</string>
+
 
 </resources>

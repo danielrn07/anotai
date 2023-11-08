@@ -18,4 +18,10 @@ fun Fragment.snackbar(message: Int, resColor: Int) {
     snackbar.show()
 }
 
-
+fun Fragment.listEmpty(taskList: List<Any>): String {
+    return if (taskList.isEmpty()) {
+        getString(R.string.empty_category_list)
+    } else {
+        ""
+    }
+}

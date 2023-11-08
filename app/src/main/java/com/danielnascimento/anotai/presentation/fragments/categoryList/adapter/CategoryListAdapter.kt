@@ -1,4 +1,4 @@
-package com.danielnascimento.anotai.ui.adapter
+package com.danielnascimento.anotai.presentation.fragments.categoryList.adapter
 
 import android.content.Context
 import android.content.res.Configuration
@@ -24,31 +24,21 @@ class CategoryListAdapter(
         var selectedPosition = RecyclerView.NO_POSITION
 
         private val DIFF_CALLBACK = object : DiffUtil.ItemCallback<CategoryEntity>() {
-            override fun areItemsTheSame(
-                oldItem: CategoryEntity,
-                newItem: CategoryEntity
-            ): Boolean {
-                return oldItem.id == newItem.id && oldItem.name == newItem.name
-            }
+            override fun areItemsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity) =
+                oldItem == newItem
 
-            override fun areContentsTheSame(
-                oldItem: CategoryEntity,
-                newItem: CategoryEntity
-            ): Boolean {
-                return oldItem.id == newItem.id && oldItem.name == newItem.name
-            }
+            override fun areContentsTheSame(oldItem: CategoryEntity, newItem: CategoryEntity) =
+                oldItem.id == newItem.id
         }
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-        return MyViewHolder(
-            CategoryItemListBinding.inflate(
-                LayoutInflater.from(parent.context),
-                parent,
-                false
-            )
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder = MyViewHolder(
+        CategoryItemListBinding.inflate(
+            LayoutInflater.from(parent.context),
+            parent,
+            false
         )
-    }
+    )
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 

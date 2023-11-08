@@ -8,7 +8,7 @@ import com.danielnascimento.anotai.data.db.dao.CategoryDao
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
 
 @Database(entities = [CategoryEntity::class], version = 1)
-public abstract class AppDatabase : RoomDatabase() {
+abstract class AppDatabase : RoomDatabase() {
 
     abstract fun categoryDao(): CategoryDao
 

@@ -1,4 +1,4 @@
-package com.danielnascimento.anotai.ui.fragments
+package com.danielnascimento.anotai.presentation.fragments.notes
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,17 +7,13 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.danielnascimento.anotai.R
-import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
-import com.danielnascimento.anotai.data.db.repository.CategoryRepository
 import com.danielnascimento.anotai.databinding.FragmentNotesBinding
-import com.danielnascimento.anotai.ui.adapter.CategoryListAdapter
-import com.danielnascimento.anotai.ui.viewmodel.CategoryViewModel
+import com.danielnascimento.anotai.presentation.fragments.categoryList.adapter.CategoryListAdapter
+import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModel
+import com.danielnascimento.anotai.presentation.viewmodel.ViewModelFactory
 import com.danielnascimento.anotai.utils.nav
 
 class NotesFragment : Fragment() {
@@ -26,20 +22,7 @@ class NotesFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListAdapter
 
     private val categoryViewModel: CategoryViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-
-                    val database = AppDatabase.getDatabase(requireContext())
-
-                    val repository = CategoryRepository(database.categoryDao())
-
-                    @Suppress("UNCHECKED_CAST")
-                    return CategoryViewModel(repository) as T
-                }
-                throw IllegalArgumentException("Unknown ViewModel class")
-            }
-        }
+        ViewModelFactory(requireContext())
     }
 
     override fun onCreateView(

@@ -1,6 +1,5 @@
-package com.danielnascimento.anotai.ui.fragments
+package com.danielnascimento.anotai.presentation.fragments.categoryList
 
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,21 +8,18 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.danielnascimento.anotai.R
-import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
-import com.danielnascimento.anotai.data.db.repository.CategoryRepository
 import com.danielnascimento.anotai.databinding.FragmentCategoryListBinding
-import com.danielnascimento.anotai.ui.adapter.CategoryListAdapter
-import com.danielnascimento.anotai.ui.viewmodel.CategoryViewModel
-import com.danielnascimento.anotai.utils.snackbar
+import com.danielnascimento.anotai.presentation.fragments.categoryList.adapter.CategoryListAdapter
+import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModel
+import com.danielnascimento.anotai.presentation.viewmodel.ViewModelFactory
+import com.danielnascimento.anotai.utils.listEmpty
 import com.google.android.material.snackbar.Snackbar
 import java.util.Locale
+
 
 class CategoryListFragment : Fragment() {
     private var _binding: FragmentCategoryListBinding? = null
@@ -31,20 +27,7 @@ class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListAdapter
 
     private val categoryViewModel: CategoryViewModel by viewModels {
-        object : ViewModelProvider.Factory {
-            override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                if (modelClass.isAssignableFrom(CategoryViewModel::class.java)) {
-
-                    val database = AppDatabase.getDatabase(requireContext())
-
-                    val repository = CategoryRepository(database.categoryDao())
-
-                    @Suppress("UNCHECKED_CAST")
-                    return CategoryViewModel(repository) as T
-                }
-                throw IllegalArgumentException("Unknown ViewModel class")
-            }
-        }
+        ViewModelFactory(requireContext())
     }
 
     override fun onCreateView(
@@ -79,12 +62,10 @@ class CategoryListFragment : Fragment() {
             .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
         if (categoryName.isNotEmpty()) {
-            val category = CategoryEntity()
-            category.name = categoryName
+            val category = CategoryEntity(
+                name = categoryName
+            )
             categoryViewModel.insertCategory(category)
-
-            findNavController().popBackStack()
-
         } else {
             binding.inputCategoryName.error = getText(R.string.empty_category_name_error)
         }
@@ -93,6 +74,7 @@ class CategoryListFragment : Fragment() {
     private fun observeViewModel() {
         categoryViewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
             categoryListAdapter.submitList(categoryList)
+            binding.tvInfo.text = listEmpty(categoryList)
         }
 
         categoryViewModel.categoryStateMessage.observe(viewLifecycleOwner) { message ->
@@ -126,7 +108,6 @@ class CategoryListFragment : Fragment() {
 
             CategoryListAdapter.SELECT_REMOVE -> {
                 categoryViewModel.deleteCategory(category.id)
-//                categoryViewModel.getAllCategories()
             }
         }
     }

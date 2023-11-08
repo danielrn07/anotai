@@ -14,7 +14,7 @@
         android:theme="@style/Theme.App.Starting"
         tools:targetApi="31">
         <activity
-            android:name="com.danielnascimento.anotai.ui.activities.MainActivity"
+            android:name="com.danielnascimento.anotai.presentation.activities.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
