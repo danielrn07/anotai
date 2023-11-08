@@ -15,26 +15,29 @@ class MainActivity : AppCompatActivity() {
     private lateinit var sharedPref: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        setTheme(R.style.Theme_Anotai)
+
+        configureThemeFromPreferences()
+
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         installSplashScreen()
         setContentView(binding.root)
+
+        setupSwitch()
     }
 
-    override fun onStart() {
-        super.onStart()
-
-        sharedPref = getSharedPreferences(
-            "checkTheme", Context.MODE_PRIVATE
-        )
-
-        checkTheme()
-        recoverTheme()
+    private fun configureThemeFromPreferences() {
+        sharedPref = getSharedPreferences("checkTheme", Context.MODE_PRIVATE)
+        val isDarkMode = sharedPref.getBoolean("checked", false)
+        setAppTheme(isDarkMode)
+        setTheme(if (isDarkMode) R.style.Theme_Anotai_Dark else R.style.Theme_Anotai)
     }
 
-    private fun checkTheme() {
+
+    private fun setupSwitch() {
         val switch: SwitchCompat = binding.btnNightMode
+        switch.isChecked = sharedPref.getBoolean("checked", false)
+
         switch.setOnCheckedChangeListener { _, isChecked ->
             with(sharedPref.edit()) {
                 putBoolean("checked", isChecked)
@@ -44,18 +47,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun recoverTheme() {
-        val checked = sharedPref.getBoolean("checked", false)
-        if (checked) {
-            binding.btnNightMode.isChecked = true
-        }
-    }
-
     private fun setAppTheme(isDarkMode: Boolean) {
-        if (isDarkMode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
-        } else {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
-        }
+        val newThemeMode =
+            if (isDarkMode) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
+        AppCompatDelegate.setDefaultNightMode(newThemeMode)
     }
 }
