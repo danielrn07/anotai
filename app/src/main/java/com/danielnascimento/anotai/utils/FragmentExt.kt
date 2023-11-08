@@ -1,7 +1,5 @@
 package com.danielnascimento.anotai.utils
 
-import android.graphics.Color
-import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController

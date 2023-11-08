@@ -8,7 +8,6 @@ import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
@@ -16,10 +15,10 @@ import com.danielnascimento.anotai.databinding.FragmentCategoryListBinding
 import com.danielnascimento.anotai.presentation.fragments.categoryList.adapter.CategoryListAdapter
 import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModel
 import com.danielnascimento.anotai.presentation.viewmodel.ViewModelFactory
+import com.danielnascimento.anotai.utils.hideKeyboard
 import com.danielnascimento.anotai.utils.listEmpty
 import com.google.android.material.snackbar.Snackbar
 import java.util.Locale
-
 
 class CategoryListFragment : Fragment() {
     private var _binding: FragmentCategoryListBinding? = null
@@ -66,6 +65,8 @@ class CategoryListFragment : Fragment() {
                 name = categoryName
             )
             categoryViewModel.insertCategory(category)
+            binding.inputCategoryName.setText("")
+            requireContext().hideKeyboard(requireView())
         } else {
             binding.inputCategoryName.error = getText(R.string.empty_category_name_error)
         }
