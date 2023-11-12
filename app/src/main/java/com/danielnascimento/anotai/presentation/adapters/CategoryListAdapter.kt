@@ -1,4 +1,4 @@
-package com.danielnascimento.anotai.presentation.fragments.categoryList.adapter
+package com.danielnascimento.anotai.presentation.adapters
 
 import android.content.Context
 import android.content.res.Configuration

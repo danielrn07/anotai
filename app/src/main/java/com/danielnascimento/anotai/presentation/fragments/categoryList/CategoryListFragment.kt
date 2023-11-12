@@ -12,9 +12,9 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
 import com.danielnascimento.anotai.databinding.FragmentCategoryListBinding
-import com.danielnascimento.anotai.presentation.fragments.categoryList.adapter.CategoryListAdapter
+import com.danielnascimento.anotai.presentation.adapters.CategoryListAdapter
 import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModel
-import com.danielnascimento.anotai.presentation.viewmodel.ViewModelFactory
+import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModelFactory
 import com.danielnascimento.anotai.utils.hideKeyboard
 import com.danielnascimento.anotai.utils.listEmpty
 import com.google.android.material.snackbar.Snackbar
@@ -26,7 +26,7 @@ class CategoryListFragment : Fragment() {
     private lateinit var categoryListAdapter: CategoryListAdapter
 
     private val categoryViewModel: CategoryViewModel by viewModels {
-        ViewModelFactory(requireContext())
+        CategoryViewModelFactory(requireContext())
     }
 
     override fun onCreateView(
@@ -79,12 +79,14 @@ class CategoryListFragment : Fragment() {
         }
 
         categoryViewModel.categoryStateMessage.observe(viewLifecycleOwner) { message ->
-            val snackbar = Snackbar.make(requireView(), getString(message), Snackbar.LENGTH_LONG)
-            snackbar.setTextColor(ContextCompat.getColor(requireContext(), R.color.main_success))
-            snackbar.setAction(getString(R.string.undo)) {
-                categoryViewModel.insertCategory(categoryListAdapter.recentlyDeletedCategory)
+            if (message == R.string.success_in_deleting_category) {
+                val snackbar = Snackbar.make(requireView(), getString(message), Snackbar.LENGTH_LONG)
+                snackbar.setTextColor(ContextCompat.getColor(requireContext(),R.color.main_success))
+                snackbar.setAction(getString(R.string.undo)) {
+                    categoryViewModel.insertCategory(categoryListAdapter.recentlyDeletedCategory)
+                }
+                snackbar.show()
             }
-            snackbar.show()
         }
     }
 

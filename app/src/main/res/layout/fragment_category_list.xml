@@ -3,45 +3,59 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     tools:context=".presentation.fragments.categoryList.CategoryListFragment">
 
-    <TextView
-        android:id="@+id/tv_info"
-        android:layout_width="wrap_content"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/cl_top"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:text="@string/empty_category_list"
-        app:layout_constraintBottom_toTopOf="@+id/text_input_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/text_input_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:itemCount="1"
-        tools:listitem="@layout/category_item_list" />
+        <TextView
+            android:id="@+id/tv_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:fontFamily="@font/manrope_regular"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="@string/empty_category_list" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerview"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingHorizontal="12dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:itemCount="1"
+            tools:listitem="@layout/category_item_list" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/text_input_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@id/cl_top">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/input_category_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:hint="@string/hint_category_name"
             android:inputType="textCapWords"
-            android:hint="Nome da categoria" />
+            android:scrollHorizontally="true" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <Button
@@ -50,7 +64,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:backgroundTint="@color/main_secondary"
-        android:text="Salvar"
+        android:text="@string/save"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_input_layout" />

@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity() {
         setTheme(if (isDarkMode) R.style.Theme_Anotai_Dark else R.style.Theme_Anotai)
     }
 
-
     private fun setupSwitch() {
         val switch: SwitchCompat = binding.btnNightMode
         switch.isChecked = sharedPref.getBoolean("checked", false)

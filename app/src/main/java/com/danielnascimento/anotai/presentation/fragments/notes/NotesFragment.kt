@@ -8,21 +8,31 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.entity.CategoryEntity
+import com.danielnascimento.anotai.data.db.entity.NoteEntity
 import com.danielnascimento.anotai.databinding.FragmentNotesBinding
-import com.danielnascimento.anotai.presentation.fragments.categoryList.adapter.CategoryListAdapter
+import com.danielnascimento.anotai.presentation.adapters.CategoryListAdapter
+import com.danielnascimento.anotai.presentation.adapters.NoteListAdapter
 import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModel
-import com.danielnascimento.anotai.presentation.viewmodel.ViewModelFactory
+import com.danielnascimento.anotai.presentation.viewmodel.CategoryViewModelFactory
+import com.danielnascimento.anotai.presentation.viewmodel.NoteViewModel
+import com.danielnascimento.anotai.presentation.viewmodel.NoteViewModelFactory
 import com.danielnascimento.anotai.utils.nav
 
 class NotesFragment : Fragment() {
     private var _binding: FragmentNotesBinding? = null
     private val binding get() = _binding!!
     private lateinit var categoryListAdapter: CategoryListAdapter
+    private lateinit var noteListAdapter: NoteListAdapter
 
     private val categoryViewModel: CategoryViewModel by viewModels {
-        ViewModelFactory(requireContext())
+        CategoryViewModelFactory(requireContext())
+    }
+
+    private val noteViewModel: NoteViewModel by viewModels {
+        NoteViewModelFactory(requireContext())
     }
 
     override fun onCreateView(
@@ -37,14 +47,20 @@ class NotesFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         CategoryListAdapter.isEditingCategory = false
+
         setupClickListeners()
-        setupRecyclerView()
-        observeViewModel()
+
+        observeCategoryViewModel()
+        observeNoteViewModel()
+
+        setupCategoryRecyclerView()
+        setupNoteRecyclerView()
     }
 
     override fun onResume() {
         super.onResume()
         categoryViewModel.getAllCategories()
+        noteViewModel.getAllNotes()
     }
 
     private fun setupClickListeners() {
@@ -53,7 +69,7 @@ class NotesFragment : Fragment() {
         }
     }
 
-    private fun observeViewModel() {
+    private fun observeCategoryViewModel() {
         categoryViewModel.categoryList.observe(viewLifecycleOwner) { categoryList ->
 
             val newCategory = CategoryEntity(0, "All")
@@ -65,16 +81,31 @@ class NotesFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
+    private fun observeNoteViewModel() {
+        noteViewModel.noteList.observe(viewLifecycleOwner) { noteList ->
+            noteListAdapter.submitList(noteList)
+        }
+    }
 
+    private fun setupCategoryRecyclerView() {
         categoryListAdapter = CategoryListAdapter { category, option ->
             optionSelected(category, option)
         }
 
-        with(binding.recyclerview) {
+        with(binding.rvCategory) {
             layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(false)
             adapter = categoryListAdapter
+        }
+    }
+
+    private fun setupNoteRecyclerView() {
+        noteListAdapter = NoteListAdapter()
+
+        with(binding.rvNote) {
+            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            setHasFixedSize(false)
+            adapter = noteListAdapter
         }
     }
 
