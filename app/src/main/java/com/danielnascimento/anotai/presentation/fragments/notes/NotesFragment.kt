@@ -67,6 +67,10 @@ class NotesFragment : Fragment() {
         binding.btnEditCategories.setOnClickListener {
             nav(R.id.action_notesFragment_to_categoryListFragment)
         }
+
+        binding.btnAdd.setOnClickListener {
+            nav(R.id.action_notesFragment_to_insertNoteFragment)
+        }
     }
 
     private fun observeCategoryViewModel() {

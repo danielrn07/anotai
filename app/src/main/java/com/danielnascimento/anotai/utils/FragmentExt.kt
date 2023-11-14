@@ -1,5 +1,6 @@
 package com.danielnascimento.anotai.utils
 
+import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -9,6 +10,9 @@ import com.google.android.material.snackbar.Snackbar
 fun Fragment.nav(id: Int) {
     findNavController().navigate(id)
 }
+
+fun Fragment.navUp() =
+    findNavController().navigateUp()
 
 fun Fragment.snackbar(message: Int, resColor: Int) {
     val snackbar = Snackbar.make(requireView(), getString(message), Snackbar.LENGTH_SHORT)
@@ -23,3 +27,6 @@ fun Fragment.listEmpty(taskList: List<Any>): String {
         ""
     }
 }
+
+fun getTextInput(editText: EditText) =
+    editText.text.toString().trim()

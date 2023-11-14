@@ -57,7 +57,7 @@ dependencies {
     ksp("androidx.room:room-compiler:$roomVersion")
 
     // Lifecycle components
-    val lifecycleVersion = "2.6.1"
+    val lifecycleVersion = "2.6.2"
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
     implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
 
@@ -68,4 +68,7 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    // Kotlinx Datetime - https://github.com/Kotlin/kotlinx-datetime
+    implementation("org.jetbrains.kotlinx:kotlinx-datetime:0.4.1")
 }

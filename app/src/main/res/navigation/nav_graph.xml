@@ -11,10 +11,18 @@
         <action
             android:id="@+id/action_notesFragment_to_categoryListFragment"
             app:destination="@id/categoryListFragment"/>
+        <action
+            android:id="@+id/action_notesFragment_to_insertNoteFragment"
+            app:destination="@id/insertNoteFragment" />
     </fragment>
     <fragment
         android:id="@+id/categoryListFragment"
         android:name="com.danielnascimento.anotai.presentation.fragments.categoryList.CategoryListFragment"
         android:label="fragment_category_list"
         tools:layout="@layout/fragment_category_list" />
+    <fragment
+        android:id="@+id/insertNoteFragment"
+        android:name="com.danielnascimento.anotai.presentation.fragments.notes.InsertNoteFragment"
+        android:label="fragment_insert_note"
+        tools:layout="@layout/fragment_insert_note" />
 </navigation>

@@ -2,6 +2,7 @@ package com.danielnascimento.anotai.presentation.adapters
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -33,8 +34,11 @@ class NoteListAdapter() : ListAdapter<NoteEntity, NoteListAdapter.MyViewHolder>(
         val note = getItem(position)
 
         holder.binding.apply {
+            if (note.title.isEmpty())
+                tvTitle.isVisible = false
+
             tvTitle.text = note.title
-            tvNoteText.text = note.noteText
+            tvNoteText.text = note.text
             tvDate.text = note.date
         }
     }

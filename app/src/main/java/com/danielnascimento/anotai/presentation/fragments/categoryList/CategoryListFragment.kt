@@ -58,7 +58,6 @@ class CategoryListFragment : Fragment() {
 
     private fun validateData() {
         val categoryName = binding.inputCategoryName.text.toString().trim()
-            .replaceFirstChar { if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString() }
 
         if (categoryName.isNotEmpty()) {
             val category = CategoryEntity(

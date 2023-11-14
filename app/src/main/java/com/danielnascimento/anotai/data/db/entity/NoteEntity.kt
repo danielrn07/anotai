@@ -8,7 +8,7 @@ data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
     val title: String,
-    val noteText: String,
+    val text: String,
     val date: String,
     val imgPath: String = "",
     val color: String = ""
