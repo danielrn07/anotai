@@ -1,20 +1,34 @@
 package com.danielnascimento.anotai.presentation.viewmodel
 
 import android.content.Context
+import androidx.databinding.ObservableInt
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
+import com.danielnascimento.anotai.R
 import com.danielnascimento.anotai.data.db.AppDatabase
 import com.danielnascimento.anotai.data.db.entity.NoteEntity
-import com.danielnascimento.anotai.data.db.repository.CategoryRepository
 import com.danielnascimento.anotai.data.db.repository.NoteRepository
 import kotlinx.coroutines.launch
 
 class NoteViewModel(private val repository: NoteRepository) : ViewModel() {
     private val _noteList = MutableLiveData<List<NoteEntity>>()
     val noteList: LiveData<List<NoteEntity>> = _noteList
+
+    private val _colorObservable = MutableLiveData<Int>()
+    val colorObservable: LiveData<Int> = _colorObservable
+
+    var color = ""
+
+    init {
+        _colorObservable.value = R.color.white
+    }
+
+    fun updateColor(newColor: Int) {
+        _colorObservable.value = newColor
+    }
 
     fun getAllNotes() = viewModelScope.launch {
         try {

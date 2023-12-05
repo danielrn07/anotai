@@ -11,7 +11,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/dark_surface</item>
 
-        <!-- Customize your theme here. -->
+        <!-- Custom themes -->
         <item name="android:windowBackground">@color/dark_surface</item>
         <item name="android:textViewStyle">@style/TextViewStyleNight</item>
     </style>

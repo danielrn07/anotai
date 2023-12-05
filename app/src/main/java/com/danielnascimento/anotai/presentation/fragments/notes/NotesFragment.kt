@@ -104,7 +104,7 @@ class NotesFragment : Fragment() {
     }
 
     private fun setupNoteRecyclerView() {
-        noteListAdapter = NoteListAdapter()
+        noteListAdapter = NoteListAdapter(requireContext())
 
         with(binding.rvNote) {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)

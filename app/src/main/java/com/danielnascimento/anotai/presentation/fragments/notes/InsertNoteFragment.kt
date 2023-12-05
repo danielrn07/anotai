@@ -2,10 +2,13 @@ package com.danielnascimento.anotai.presentation.fragments.notes
 
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.danielnascimento.anotai.R
@@ -13,6 +16,7 @@ import com.danielnascimento.anotai.data.db.entity.NoteEntity
 import com.danielnascimento.anotai.databinding.FragmentInsertNoteBinding
 import com.danielnascimento.anotai.presentation.viewmodel.NoteViewModel
 import com.danielnascimento.anotai.presentation.viewmodel.NoteViewModelFactory
+import com.danielnascimento.anotai.utils.ModalBottomSheet
 import com.danielnascimento.anotai.utils.getTextInput
 import com.danielnascimento.anotai.utils.navUp
 import kotlinx.datetime.Clock
@@ -47,16 +51,30 @@ class InsertNoteFragment : Fragment() {
                 android.text.InputType.TYPE_CLASS_TEXT
 
         setupClickListeners()
+        observeViewModel()
+    }
+
+    private fun observeViewModel() {
+        noteViewModel.colorObservable.observe(viewLifecycleOwner) { novaCor ->
+            binding.view.setBackgroundColor(ContextCompat.getColor(requireContext(), novaCor))
+        }
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     private fun setupClickListeners() {
-        binding.btnSave.setOnClickListener {
-            validateData()
-        }
+        binding.apply {
+            btnSave.setOnClickListener {
+                validateData()
+            }
 
-        binding.btnBack.setOnClickListener {
-            navUp()
+            btnBack.setOnClickListener {
+                navUp()
+            }
+
+            btnMore.setOnClickListener {
+                val modalBottomSheet = ModalBottomSheet(noteViewModel)
+                modalBottomSheet.show(childFragmentManager, ModalBottomSheet.TAG)
+            }
         }
     }
 
@@ -74,7 +92,8 @@ class InsertNoteFragment : Fragment() {
             val note = NoteEntity(
                 title = noteTitle,
                 text = noteText,
-                date = formattedDate
+                date = formattedDate,
+                color = noteViewModel.color
             )
             noteViewModel.insertNote(note)
             navUp()

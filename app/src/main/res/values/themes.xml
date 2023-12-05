@@ -12,9 +12,13 @@
         <item name="android:statusBarColor">@color/main_primary</item>
         <item name="android:windowLightStatusBar">true</item>
 
-        <!-- Customize your theme here. -->
+        <!-- Custom themes -->
         <item name="android:windowBackground">@color/main_primary</item>
         <item name="android:textViewStyle">@style/TextViewStyle</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="Widget.Design.BottomSheet.Modal">
+        <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
 
     <style name="Theme.Anotai" parent="Base.Theme.Anotai" />
